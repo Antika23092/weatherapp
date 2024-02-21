@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1{
+        color: aliceblue;
+        font-size: 50px;
+    }
+    #weatherCon{
+      display: flex;
+      width: 100%;
+      height: auto;
+      gap: 20px;
+      background-color: rgb(238, 235, 235);
+      padding: 20px;
+    }
+    #display{
+        margin: auto;
+        width: 75%;
+        height: 600px;
+        background-color: aliceblue;
+        border-radius: 10px;
+        background-image:url("https://media.istockphoto.com/id/1429064821/photo/summer-raincloud.jpg?s=1024x1024&w=is&k=20&c=OoKEiobu8edfKJgFlfeH6cRwHSmhVZoSLcJdf_dvnMA=");
+        background-repeat: no-repeat;
+        background-position: cover;
+        
+    
+    }
+    #inputs{
+        display: flex;
+        width: 20%;
+        height: 600px;
+        background-color: aliceblue;
+        border-radius: 10px;
+        flex-direction: column;
+        align-items:center;
+       
+    
+    }
+    #cityname{
+        
+        width: 80%;
+        height: 50px;
+        border: 0px;
+        margin-top: 60px;
+        background-color:rgb(167, 167, 237);
+        color: white;
+        font-size: 20px;
+        
+        
+    }
+    #display>img{
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+    
+    }
+    #wether{
+        display: flex;
+        margin: auto;
+        margin-top: 60px;
+        width: 70%;
+        height: 300px;
+        
+        background-color: rgb(175, 175, 242);
+        opacity: 90%;
+        padding: 40px;
+      
+    }
+    #wethimg{
+        display: flex;
+        width: auto;
+        height: auto;
+        
+        gap:20px
+    }
+    #imgcon{
+    
+        width: 200px;
+        height: 200px;
+        
+    
+    }
+    #imgcon>img{
+        width: 100%;
+        height: 100%;
+        
+    }
+    #content{
+        width: 100px;
+        height: 100px;
+        
+    }
+    </style>
+</head>
+<body>
+    
+    <div id="weatherCon">
+        
+
+        
+        <div id="display">
+    
+            <div id="wether">
+                <h1  id="cel"></h1>
+                <div id="wethimg"></div>
+            </div>
+            
+    
+        </div>
+        
+        
+        <div id="inputs">
+    
+            <input id="cityname" onchange="getcity()"  type="text" placeholder="Enter Yor City Name">
+    
+    
+    
+        </div>
+        </div>
+       
+        
+    
+    
+</body>
+<script>
+    async function fetchData(){
+    let city = document.getElementById('cityName').value;
+    const weatherData = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=70d08f3576e2d00fff5c80037678b233&units=metric);`);
+    const jsonData = await weatherData.json();
+    document.getElementById('temp').innerHTML = jsonData.main.temp;
+    document.getElementById('humid').innerHTML = jsonData.main.humidity;
+    document.getElementById('ws').innerHTML = jsonData.wind.speed;
+    document.getElementById('feels_like').innerHTML = jsonData.main.feels_like;
+    document.getElementById('cityName').value = '';
+    let newNum = Number(jsonData.main.temp);
+    if(newNum>15){
+        document.getElementById('new_img').src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvXDiDtwm_fK1V-p54ctnUqE6qsnYxBUDp098IN9Hfkw&s'
+    }
+    else{
+        document.getElementById('new_img').src = 'https://i.seadn.io/gae/2hDpuTi-0AMKvoZJGd-yKWvK4tKdQr_kLIpB_qSeMau2TNGCNidAosMEvrEXFO9G6tmlFlPQplpwiqirgrIPWnCKMvElaYgI-HiVvXc?auto=format&dpr=1&w=1000'
+    }
+
+}
+    
+
+</script>
+</html>

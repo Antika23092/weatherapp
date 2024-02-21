@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1{
+            color: aliceblue;
+            font-size: 50px;
+        }
+        #weatherCon{
+          display: flex;
+          width: 96%;
+          height: auto;
+          gap: 20px;
+          background-color: rgb(238, 235, 235);
+          padding: 20px;
+        }
+        #display{
+            margin: auto;
+            width: 75%;
+            height: 600px;
+            background-color: aliceblue;
+            border-radius: 10px;
+            background-image:url("https://i.ytimg.com/vi/2pgps3Fs6Gs/maxresdefault.jpg");
+            background-repeat: no-repeat;
+            background-position: cover;
+            /* https://i.ytimg.com/vi/2pgps3Fs6Gs/maxresdefault.jpg
+            https://th.bing.com/th/id/R.25084b1a79ce3d9cc8f48e1724988f51?rik=ThVuSMhAVU8GEw&riu=http%3a%2f%2freporterly.net%2fwp-content%2fuploads%2f2018%2f11%2fweather.jpg&ehk=6rm1bz7Th0y3zPn3%2fwGV2uFI2D1WVjFnfvKdnTCl53Y%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1
+             */
+
+        }
+        #inputs{
+            display: flex;
+            width: 20%;
+            height: 600px;
+            background-color: aliceblue;
+            border-radius: 10px;
+            flex-direction: column;
+            align-items:center;
+           
+
+        }
+        #cityname{
+            
+            width: 80%;
+            height: 50px;
+            border: 0px;
+            margin-top: 60px;
+            background-color:rgb(167, 167, 237);
+            color: white;
+            font-size: 20px;
+            
+            
+        }
+        #display>img{
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+
+        }
+        #wether{
+            display: flex;
+            margin: auto;
+            margin-top: 60px;
+            width: 70%;
+            height: 300px;
+            
+            background-color: rgb(175, 175, 242);
+            opacity: 90%;
+            padding: 40px;
+          
+        }
+        #wethimg{
+            display: flex;
+            width: auto;
+            height: auto;
+            
+            gap:20px
+        }
+        #imgcon{
+
+            width: 200px;
+            height: 200px;
+            
+
+        }
+        #imgcon>img{
+            width: 100%;
+            height: 100%;
+            
+        }
+        #content{
+            width: 100px;
+            height: 100px;
+            
+        }
+    </style>
+</head>
+<body>
+    <div id="weatherCon">
+
+        
+    <div id="display">
+
+        <div id="wether">
+            <h1  id="cel"></h1>
+            <div id="wethimg"></div>
+        </div>
+        
+
+    </div>
+    <div style="background: rgb(225, 239, 234);" id="inputs">
+
+        <input id="cityname" onchange="getcity()"  type="text" placeholder="Enter Yor City Name">
+
+
+
+    </div>
+    </div>
+
+
+    
+</body>
+
+<script>
+let city=null;
+    function getcity(){
+        city=document.getElementById("cityname").value;
+        console.log(city)
+
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=70d08f3576e2d00fff5c80037678b233`)
+      .then((res)=>res.json()).then((data)=>{
+        console.log(data)
+      fahrenheit=data.main.temp;
+      let celsius = (fahrenheit - 273.15).toFixed(2);
+    //  console.log(`The temperature in Celsius is ${celsius}) C)`);
+      document.getElementById("cel").innerHTML=`${celsius}°C`
+
+      var wetherbox=document.getElementById("wethimg");
+        var imgcon=document.createElement('div')
+        imgcon.setAttribute("id","imgcon")
+        var img=document.createElement("img");
+        
+        img.src='https://ssl.gstatic.com/onebox/weather/64/partly_cloudy.png'
+        imgcon.append(img)
+        var content=document.createElement('div');
+        content.setAttribute("id","content")
+        var h1= document.createElement("h6");
+        h1.style.color="white"
+        var max= document.createElement("h6");
+        max.style.color="white"
+        var min= document.createElement("h6");
+        min.style.color="white"
+   
+
+
+        h1.innerHTML=`Feels like ${((data.main.feels_like)-273.15).toFixed(2)}°C`
+        max.innerHTML=`Maximum Temp .${((data.main.temp_max)-273.15).toFixed(2)}°C`
+        min.innerHTML=`Minimum Temp .${((data.main.temp_min)-273.15).toFixed(2)}°C`
+        content.append(h1,min,max)
+
+        wetherbox.append(imgcon,content)
+
+
+       
+        if(celsius<=15){
+            imgcon=null
+            img.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9KRodAVv4zDZN-OakJB0KgfniMwRs2Wl_FkAUbsmABKW2VFSHJCisUcbCrVVyR5iGR5s&usqp=CAU'
+            imgcon.append(img)
+        }
+        else if(celsius>=15 && celsius<40 ){
+
+            imgcon=null
+            img.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3cdNso6Gf2U1sUW1abIXRz2YBHSV7d0Moo-LYWBe6wgetkAI1rv1yA6EiMVFqfkO5mTM&usqp=CAU'
+            imgcon.append(img)
+
+        }
+
+
+    }).catch((err)=>console.log(err))
+
+    }
+    
+    
+  
+</script>
+</html>
